@@ -10,12 +10,12 @@
 // local-only leaderboard (localStorage) so it still works for local testing without Firebase.
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyC2YFpieBlmBFXKEycRVu6SChgfXI1HNlQ",
+  authDomain: "dfce2026.firebaseapp.com",
+  projectId: "dfce2026",
+  storageBucket: "dfce2026.firebasestorage.app",
+  messagingSenderId: "151193790062",
+  appId: "1:151193790062:web:9c8045d38a03ef3dbf287f",
 };
 
 window.QUIZ_DB = null;

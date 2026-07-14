@@ -43,6 +43,22 @@ Note: the Firebase config values (including the API key) are meant to be public 
 apps like this — they just identify your project. Actual protection comes from the Firestore
 rules above, not from hiding the key.
 
+## Exporting the leaderboard (CSV)
+
+[admin.html](admin.html) is a private export page — it's not linked anywhere on the public quiz,
+so visitors won't stumble onto it. Open it directly (e.g.
+`https://<username>.github.io/<repo>/admin.html`, or `http://localhost:8901/admin.html` when
+running locally) to:
+
+- See how many attempts happened on a given day
+- Download a CSV for just that day, or one CSV with every attempt ever recorded
+- Works against whichever data source the main quiz is using (shared Firestore leaderboard, or
+  local-only storage if Firebase isn't configured)
+
+It's kept off the public site by simply not being linked from `index.html` — same data
+visibility as the public top-10 leaderboard, just with a full CSV download instead of a top-10
+view. Bookmark the URL for yourself.
+
 ## Hosting on GitHub Pages
 
 1. Push this folder to a GitHub repo.
@@ -61,3 +77,4 @@ rules above, not from hiding the key.
 - `firebase-config.js` — optional Firebase project config (leave as placeholder for local-only mode)
 - `firestore.rules` — Firestore security rules to paste into the Firebase console
 - `script.js` — app logic, quiz flow, and leaderboard read/write (Firestore or localStorage)
+- `admin.html` / `admin.js` — private CSV export page, not linked from the public site

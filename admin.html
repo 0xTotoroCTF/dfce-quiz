@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>DFCE 2026 — Leaderboard Export (Admin)</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  #screen-admin .card { max-width: 640px; text-align: left; }
+  .admin-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 18px; }
+  .admin-row > div { flex: 1; min-width: 160px; }
+  input[type="date"] {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: #f7f7fb;
+    color: var(--text-0);
+    font-size: 1rem;
+  }
+  .admin-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+  .admin-actions .btn { width: auto; flex: 1; min-width: 200px; }
+  .admin-summary { color: var(--text-1); font-size: 0.9rem; margin-bottom: 18px; }
+  .admin-table-wrap { max-height: 320px; overflow-y: auto; border: 1px solid var(--card-border); border-radius: 12px; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .admin-table th, .admin-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--card-border); }
+  .admin-table th { position: sticky; top: 0; background: var(--card-bg); color: var(--text-2); text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.06em; }
+  .admin-note { color: var(--text-2); font-size: 0.8rem; margin-top: 18px; }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark">DFCE</span>
+    <span class="brand-year">2026</span>
+  </div>
+  <div class="brand-tagline">Admin — Leaderboard Export</div>
+</header>
+
+<main id="app">
+  <section id="screen-admin" class="screen active">
+    <div class="card">
+      <p class="eyebrow">Not linked from the public site</p>
+      <h1 style="font-size: 1.4rem;">Leaderboard export</h1>
+      <p class="lede" style="font-size: 0.92rem;">Download quiz results as CSV. Pick a day to export just that day's attempts, or export everything at once.</p>
+
+      <div class="admin-row">
+        <div>
+          <label class="field-label" for="admin-date">Day</label>
+          <input type="date" id="admin-date">
+        </div>
+      </div>
+
+      <div class="admin-actions">
+        <button id="btn-export-day" class="btn btn-primary">Download CSV for this day</button>
+        <button id="btn-export-all" class="btn btn-ghost">Download CSV — all days</button>
+        <button id="btn-refresh" class="btn btn-ghost">Refresh data</button>
+      </div>
+
+      <p id="admin-summary" class="admin-summary">Loading…</p>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Name</th><th>Score</th><th>Time (s)</th><th>Date/time</th></tr>
+          </thead>
+          <tbody id="admin-table-body"></tbody>
+        </table>
+      </div>
+
+      <p class="admin-note">Source: <span id="admin-source">—</span>. This page is intentionally not linked anywhere on the public quiz — bookmark the URL to come back to it.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Innov8 Labs </span>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

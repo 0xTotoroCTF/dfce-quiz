@@ -4,6 +4,7 @@
 
   const LEADERBOARD_KEY = "dfce2026_leaderboard";
   const MAX_LEADERBOARD_ENTRIES = 50;
+  const QUIZ_LENGTH = 10;
 
   const screens = {
     home: document.getElementById("screen-home"),
@@ -76,7 +77,7 @@
   function startQuiz(username) {
     state = {
       username,
-      order: shuffledIndices(QUESTIONS.length),
+      order: shuffledIndices(QUESTIONS.length).slice(0, QUIZ_LENGTH),
       current: 0,
       score: 0,
       startTime: Date.now(),
@@ -94,6 +95,7 @@
     state.answered = false;
     feedbackText.textContent = "";
     btnNext.hidden = true;
+    btnNext.disabled = false;
 
     progressFill.style.width = `${(state.current / total) * 100}%`;
     progressLabel.textContent = `Question ${state.current + 1} / ${total}`;
@@ -172,7 +174,7 @@
   }
 
   function showResults(score, elapsedSec) {
-    const total = QUESTIONS.length;
+    const total = QUIZ_LENGTH;
     const pct = Math.round((score / total) * 100);
 
     scoreRing.style.setProperty("--pct", pct);
@@ -286,7 +288,7 @@
       tr.innerHTML = `
         <td>${i + 1}</td>
         <td>${escapeHtml(entry.name)}</td>
-        <td>${entry.score}/${QUESTIONS.length}</td>
+        <td>${entry.score}/${QUIZ_LENGTH}</td>
         <td>${formatTime(entry.time)}</td>
       `;
       leaderboardBody.appendChild(tr);
