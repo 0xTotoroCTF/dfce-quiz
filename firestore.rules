@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public leaderboard: anyone can read scores, and can only add a new
+    // score (never edit or delete existing ones). Fields are validated so
+    // the collection can't be filled with junk or oversized data.
+    match /scores/{scoreId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['name', 'score', 'time', 'date'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 24
+                    && request.resource.data.score is int
+                    && request.resource.data.score >= 0
+                    && request.resource.data.score <= 10
+                    && request.resource.data.time is int
+                    && request.resource.data.time >= 0
+                    && request.resource.data.time <= 3600
+                    && request.resource.data.date is string;
+      allow update, delete: if false;
+    }
+  }
+}
