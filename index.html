@@ -33,7 +33,8 @@
       <form id="start-form" autocomplete="off">
         <label for="username" class="field-label">Enter your name</label>
         <input type="text" id="username" name="username" placeholder="e.g. Ahmad" maxlength="24" required>
-        <button type="submit" class="btn btn-primary">Start Quiz</button>
+        <p id="username-error" class="field-error" hidden>That username is taken today — try another.</p>
+        <button type="submit" id="btn-start-quiz" class="btn btn-primary">Start Quiz</button>
       </form>
 
       <button id="btn-view-leaderboard" class="btn btn-ghost">View Leaderboard</button>

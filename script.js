@@ -15,6 +15,8 @@
 
   const startForm = document.getElementById("start-form");
   const usernameInput = document.getElementById("username");
+  const usernameError = document.getElementById("username-error");
+  const btnStartQuiz = document.getElementById("btn-start-quiz");
   const btnViewLeaderboard = document.getElementById("btn-view-leaderboard");
 
   const progressFill = document.getElementById("progress-fill");
@@ -211,6 +213,42 @@
     return !!window.QUIZ_DB;
   }
 
+  function dayKey(isoString) {
+    const d = new Date(isoString);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  function todayKey() {
+    return dayKey(new Date().toISOString());
+  }
+
+  // Username uniqueness is scoped per day: doc ID = "<day>_<lowercased name>",
+  // so the same name can be reused on a different day but not reused today.
+  function scoreDocId(name, day) {
+    const normalized = name.trim().toLowerCase().replace(/\//g, "-");
+    return `${day}_${normalized}`;
+  }
+
+  async function isUsernameTaken(name) {
+    const today = todayKey();
+    if (isCloudMode()) {
+      try {
+        const doc = await window.QUIZ_DB.collection("scores").doc(scoreDocId(name, today)).get();
+        return doc.exists;
+      } catch (err) {
+        console.warn("[DFCE Quiz] Username check failed, allowing to proceed.", err);
+        return false;
+      }
+    }
+    const normalized = name.trim().toLowerCase();
+    return loadLeaderboardLocal().some(
+      (e) => dayKey(e.date) === today && e.name.trim().toLowerCase() === normalized
+    );
+  }
+
   function loadLeaderboardLocal() {
     try {
       const raw = localStorage.getItem(LEADERBOARD_KEY);
@@ -240,7 +278,11 @@
 
     if (isCloudMode()) {
       try {
-        await window.QUIZ_DB.collection("scores").add(entry);
+        const id = scoreDocId(entry.name, todayKey());
+        // Deterministic ID + rules that forbid updates means this fails if the
+        // name was already taken today (e.g. a race with another device) —
+        // fall back to a local save so the score isn't lost.
+        await window.QUIZ_DB.collection("scores").doc(id).set(entry);
         return;
       } catch (err) {
         console.warn("[DFCE Quiz] Firestore save failed, saving locally instead.", err);
@@ -301,14 +343,47 @@
     return div.innerHTML;
   }
 
+  function showUsernameError(message) {
+    usernameError.textContent = message;
+    usernameError.hidden = false;
+    usernameInput.classList.add("input-error");
+  }
+
+  function clearUsernameError() {
+    usernameError.hidden = true;
+    usernameInput.classList.remove("input-error");
+  }
+
   // Event wiring
-  startForm.addEventListener("submit", (e) => {
+  usernameInput.addEventListener("input", clearUsernameError);
+
+  startForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const name = usernameInput.value.trim();
     if (!name) {
       usernameInput.focus();
       return;
     }
+
+    clearUsernameError();
+    btnStartQuiz.disabled = true;
+    btnStartQuiz.textContent = "Checking name…";
+
+    let taken = false;
+    try {
+      taken = await isUsernameTaken(name);
+    } finally {
+      btnStartQuiz.disabled = false;
+      btnStartQuiz.textContent = "Start Quiz";
+    }
+
+    if (taken) {
+      showUsernameError("That username is taken today — try another.");
+      usernameInput.focus();
+      usernameInput.select();
+      return;
+    }
+
     startQuiz(name);
   });
 
@@ -324,6 +399,7 @@
 
   btnPlayAgain.addEventListener("click", () => {
     usernameInput.value = "";
+    clearUsernameError();
     showScreen("home");
     usernameInput.focus();
   });

@@ -43,6 +43,15 @@ Note: the Firebase config values (including the API key) are meant to be public 
 apps like this — they just identify your project. Actual protection comes from the Firestore
 rules above, not from hiding the key.
 
+## Username uniqueness
+
+A name can only be used once per day — trying to start a quiz with a name already taken today
+shows "That username is taken today — try another." and blocks starting until a different name
+is entered. The same name becomes free again the next day (useful for common names, and for a
+multi-day booth). Enforced both client-side (fast feedback) and via the Firestore document ID
+(`<day>_<lowercased name>`) combined with the rules above, which reject overwriting an existing
+day+name combination — so it holds even under a rare simultaneous submission from two devices.
+
 ## Exporting the leaderboard (CSV)
 
 [admin.html](admin.html) is a private export page — it's not linked anywhere on the public quiz,

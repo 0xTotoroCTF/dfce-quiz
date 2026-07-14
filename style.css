@@ -167,6 +167,19 @@ input[type="text"]:focus {
   border-color: var(--pink);
   box-shadow: 0 0 0 3px rgba(236,11,140,0.14);
 }
+input[type="text"].input-error {
+  border-color: var(--bad);
+}
+input[type="text"].input-error:focus {
+  box-shadow: 0 0 0 3px rgba(239,59,74,0.14);
+}
+
+.field-error {
+  color: var(--bad);
+  font-size: 0.82rem;
+  text-align: left;
+  margin: -6px 0 0;
+}
 
 .btn {
   border: none;
@@ -413,7 +426,8 @@ input[type="text"]:focus {
 }
 #screen-home .lede,
 #screen-home .field-label,
-#screen-home .footnote {
+#screen-home .footnote,
+#screen-home .field-error {
   font-family: var(--font-pixel-body);
 }
 #screen-home .lede {
@@ -422,3 +436,4 @@ input[type="text"]:focus {
 }
 #screen-home .field-label { font-size: 1.05rem; }
 #screen-home .footnote { font-size: 1.1rem; }
+#screen-home .field-error { font-size: 1.05rem; }
