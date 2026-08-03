@@ -81,6 +81,53 @@ html, body {
   font-style: italic;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.theme-switch {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: border-color 0.15s;
+}
+.theme-switch:hover { border-color: var(--pink); }
+.theme-switch:active .theme-switch-thumb { width: 25px; }
+
+.theme-switch-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  line-height: 1;
+  pointer-events: none;
+}
+.theme-switch-icon-sun { left: 6px; }
+.theme-switch-icon-moon { right: 6px; }
+
+.theme-switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease, width 0.1s ease;
+}
+:root[data-theme="dark"] .theme-switch-thumb {
+  transform: translateX(28px);
+}
+
 main#app {
   position: relative;
   z-index: 1;
@@ -391,8 +438,10 @@ input[type="text"].input-error:focus {
   .results-actions .btn { flex: 1; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Theme is resolved to an explicit data-theme attribute on <html> by an inline
+   script (defaults to system preference, then remembers the user's toggle choice
+   in localStorage) — see the theme-toggle button wiring in script.js/admin.js. */
+:root[data-theme="dark"] {
     --bg-0: #111018;
     --bg-page: #0c0b12;
     --card-bg: #17151f;
@@ -400,14 +449,13 @@ input[type="text"].input-error:focus {
     --text-0: #f4f3fa;
     --text-1: #b6b3c7;
     --text-2: #7f7c94;
-  }
-  input[type="text"] { background: #1d1a28; }
-  .option-btn { background: #1d1a28; }
-  .option-btn:hover:not(:disabled) { background: #26202f; }
-  .progress-track { background: #1d1a28; }
-  .option-letter { background: #2b283a; }
-  .score-ring { background: conic-gradient(var(--pink) calc(var(--pct, 0) * 1%), #1d1a28 0); }
 }
+:root[data-theme="dark"] input[type="text"] { background: #1d1a28; }
+:root[data-theme="dark"] .option-btn { background: #1d1a28; }
+:root[data-theme="dark"] .option-btn:hover:not(:disabled) { background: #26202f; }
+:root[data-theme="dark"] .progress-track { background: #1d1a28; }
+:root[data-theme="dark"] .option-letter { background: #2b283a; }
+:root[data-theme="dark"] .score-ring { background: conic-gradient(var(--pink) calc(var(--pct, 0) * 1%), #1d1a28 0); }
 
 /* Pixel-game font kept only for the home page's text — everything else (questions,
    results, leaderboard, buttons, shapes) is back to the original smooth/rounded style. */

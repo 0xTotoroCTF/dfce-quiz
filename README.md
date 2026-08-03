@@ -78,6 +78,18 @@ view. Bookmark the URL for yourself.
 4. If you configured Firebase (above), every device that opens that URL shares the same
    leaderboard automatically — no extra config needed per device.
 
+Note: `style.css`, `script.js`, `admin.js`, `firebase-config.js`, and `questions.js` are all
+loaded with a `?v=YYYYMMDD` cache-busting query string in `index.html`/`admin.html`. Browsers can
+otherwise keep serving an old cached copy of these files indefinitely, even after a fresh page
+load. **Bump that date whenever you push a change to any of those files**, or visitors' browsers
+may keep running the old version.
+
+## Dark / light mode
+
+A toggle button in the header (🌙/☀️) switches themes and remembers the choice per browser via
+`localStorage`, shared between the main site and the admin page. First visit defaults to the
+device's system preference.
+
 ## Files
 
 - `index.html` — page structure (home / quiz / results / leaderboard screens)

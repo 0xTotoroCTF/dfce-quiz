@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>DFCE 2026 — Leaderboard Export (Admin)</title>
-<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  var saved = localStorage.getItem("dfce2026_theme");
+  var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+})();
+</script>
+<link rel="stylesheet" href="style.css?v=20260714b">
 <style>
   #screen-admin .card { max-width: 640px; text-align: left; }
   .admin-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 18px; }
@@ -38,7 +45,14 @@
     <span class="brand-mark">DFCE</span>
     <span class="brand-year">2026</span>
   </div>
-  <div class="brand-tagline">Admin — Leaderboard Export</div>
+  <div class="header-right">
+    <div class="brand-tagline">Admin — Leaderboard Export</div>
+    <button id="theme-toggle" class="theme-switch" type="button" role="switch" aria-checked="true" aria-label="Switch to light mode">
+      <span class="theme-switch-icon theme-switch-icon-sun" aria-hidden="true">☀️</span>
+      <span class="theme-switch-icon theme-switch-icon-moon" aria-hidden="true">🌙</span>
+      <span class="theme-switch-thumb"></span>
+    </button>
+  </div>
 </header>
 
 <main id="app">
@@ -83,7 +97,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="admin.js"></script>
+<script src="firebase-config.js?v=20260714b"></script>
+<script src="admin.js?v=20260714b"></script>
 </body>
 </html>

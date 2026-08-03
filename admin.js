@@ -3,7 +3,9 @@
   "use strict";
 
   const LEADERBOARD_KEY = "dfce2026_leaderboard";
+  const THEME_KEY = "dfce2026_theme";
 
+  const themeToggle = document.getElementById("theme-toggle");
   const dateInput = document.getElementById("admin-date");
   const summaryEl = document.getElementById("admin-summary");
   const sourceEl = document.getElementById("admin-source");
@@ -141,6 +143,23 @@
       return;
     }
     downloadCSV(toCSV(allEntries), `dfce2026-leaderboard-all.csv`);
+  });
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    themeToggle.setAttribute("aria-checked", theme === "dark" ? "true" : "false");
+    themeToggle.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+    );
+  }
+
+  applyTheme(document.documentElement.getAttribute("data-theme") || "light");
+
+  themeToggle.addEventListener("click", () => {
+    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
   });
 
   init();

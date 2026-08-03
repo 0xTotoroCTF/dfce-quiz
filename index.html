@@ -4,10 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DFCE 2026 Quiz — Cybersecurity & Data Protection</title>
+<script>
+(function () {
+  var saved = localStorage.getItem("dfce2026_theme");
+  var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260714b">
 </head>
 <body>
 
@@ -18,7 +25,14 @@
     <span class="brand-mark">DFCE</span>
     <span class="brand-year">2026</span>
   </div>
-  <div class="brand-tagline">Together towards a Digital Brunei</div>
+  <div class="header-right">
+    <div class="brand-tagline">Together towards a Digital Brunei</div>
+    <button id="theme-toggle" class="theme-switch" type="button" role="switch" aria-checked="true" aria-label="Switch to light mode">
+      <span class="theme-switch-icon theme-switch-icon-sun" aria-hidden="true">☀️</span>
+      <span class="theme-switch-icon theme-switch-icon-moon" aria-hidden="true">🌙</span>
+      <span class="theme-switch-thumb"></span>
+    </button>
+  </div>
 </header>
 
 <main id="app">
@@ -124,8 +138,8 @@
      otherwise the quiz automatically falls back to a local-only leaderboard. -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script src="questions.js"></script>
-<script src="script.js"></script>
+<script src="firebase-config.js?v=20260714b"></script>
+<script src="questions.js?v=20260714b"></script>
+<script src="script.js?v=20260714b"></script>
 </body>
 </html>
