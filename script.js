@@ -30,6 +30,7 @@
   const optionsList = document.getElementById("options-list");
   const feedbackText = document.getElementById("feedback-text");
   const btnNext = document.getElementById("btn-next");
+  const btnExitQuiz = document.getElementById("btn-exit-quiz");
 
   const resultsHeadline = document.getElementById("results-headline");
   const scoreRing = document.getElementById("score-ring");
@@ -165,6 +166,14 @@
       renderQuestion();
       btnNext.disabled = false;
     }
+  });
+
+  btnExitQuiz.addEventListener("click", () => {
+    if (!confirm("Exit this quiz? The current attempt won't be saved.")) return;
+    usernameInput.value = "";
+    clearUsernameError();
+    showScreen("home");
+    usernameInput.focus();
   });
 
   function finishQuiz() {
